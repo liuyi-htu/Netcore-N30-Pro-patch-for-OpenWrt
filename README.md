@@ -1,35 +1,41 @@
-# Netcore N30 Pro ImmortalWrt Patches
+Netcore N30 Pro ImmortalWrt Patches
 
-This repository only keeps the Netcore N30 Pro adaptation patches for ImmortalWrt.
+This repository keeps the Netcore N30 Pro adaptation patches for ImmortalWrt.
 
-It does not vendor the full ImmortalWrt source tree. Pick the ImmortalWrt version, tag, or branch you want, then apply the patches from this repository.
+The patches were extracted and organized from the official firmware adaptation files, so this repository does not vendor the full ImmortalWrt source tree. Clone the official ImmortalWrt source tree, switch to the ImmortalWrt version, tag, branch, or commit you want to build, then apply the patches from this repository.
 
-## Usage
+Usage
 
-```sh
+Clone this patch repository and the official ImmortalWrt source tree in the same parent directory:
+
+git clone https://github.com/liuyi-htu/Netcore-N30-Pro-patch-for-OpenWrt.git
 git clone https://github.com/immortalwrt/immortalwrt.git immortalwrt-n30pro
 cd immortalwrt-n30pro
 
-# Pick any target version or branch.
-git checkout v24.10.5
+Pick the target ImmortalWrt version, tag, branch, or commit you want to build:
+
+git checkout <version-tag-branch-or-commit>
+# Example:
+# git checkout v25.12.0
 # git checkout openwrt-24.10
 # git checkout master
 
-git apply --3way /path/to/Netcore-n30pro-immortalwrt/patches/*.patch
-```
+Apply the Netcore N30 Pro patches:
 
-After applying the patch, select `Netcore N30 Pro` in `make menuconfig` and build ImmortalWrt normally.
+git apply --3way ../Netcore-N30-Pro-patch-for-OpenWrt/patches/*.patch
 
-## Notes
+After applying the patch, select "Netcore N30 Pro" in "make menuconfig" and build ImmortalWrt normally.
 
-- The patch was originally extracted from the `v24.10.5` adaptation.
-- Other ImmortalWrt versions can be used as long as the surrounding `mediatek/filogic` files remain compatible.
-- If upstream changes the same DTS, image, network, or Wi-Fi MAC files, `git apply --3way` may report conflicts. Resolve those conflicts in the target ImmortalWrt tree, build-test, then refresh the patch.
+Notes
 
-## Refresh Patch
+- The patch does not lock ImmortalWrt to a specific version.
+- Use the ImmortalWrt version, tag, branch, or commit that matches your build target.
+- Other ImmortalWrt versions can be used as long as the surrounding "mediatek/filogic" files remain compatible.
+- The patch currently touches the Netcore N30 Pro DTS, image definition, network defaults, and Wi-Fi MAC handling files.
+- If upstream changes the same DTS, image, network, or Wi-Fi MAC files, "git apply --3way" may report conflicts. Resolve those conflicts in the target ImmortalWrt tree, build-test, then refresh the patch.
+
+Refresh Patch
 
 From a patched ImmortalWrt tree:
 
-```sh
-git diff > /path/to/Netcore-n30pro-immortalwrt/patches/0001-Add-Netcore-N30-Pro-support.patch
-```
+git diff > ../Netcore-N30-Pro-patch-for-OpenWrt/patches/0001-Add-Netcore-N30-Pro-support.patch
