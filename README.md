@@ -86,10 +86,3 @@ If the script then switches to keyword-based insertion and finishes with `Netcor
 - The patch currently touches the Netcore N30 Pro DTS, image definition, network defaults, and Wi-Fi MAC handling files.
 - If upstream changes the same DTS, image, network, or Wi-Fi MAC files too much, keyword-based insertion may still fail. In that case, resolve the target tree manually, build-test it, then refresh the patch.
 
-## Refresh Patch
-
-From a patched ImmortalWrt tree:
-
-```sh
-git diff > ../Netcore-N30-Pro-patch-for-OpenWrt/patches/0001-Add-Netcore-N30-Pro-support.patch
-```
