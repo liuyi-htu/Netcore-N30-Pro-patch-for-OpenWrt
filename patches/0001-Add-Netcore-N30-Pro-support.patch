@@ -4,11 +4,11 @@ Date: Sat, 27 Jun 2026 01:31:23 +0800
 Subject: [PATCH] Add Netcore N30 Pro support
 
 ---
- .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 249 ++++++++++++++++++
+ .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 257 ++++++++++++++++++
  .../filogic/base-files/etc/board.d/02_network |   1 +
  .../etc/hotplug.d/ieee80211/11_fix_wifi_mac   |   1 +
- target/linux/mediatek/image/filogic.mk        |  17 ++
- 4 files changed, 268 insertions(+)
+ target/linux/mediatek/image/filogic.mk        |  18 ++
+ 4 files changed, 277 insertions(+)
  create mode 100644 target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
 
 diff --git a/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
@@ -16,7 +16,7 @@ new file mode 100644
 index 0000000..09e5661
 --- /dev/null
 +++ b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
-@@ -0,0 +1,249 @@
+@@ -0,0 +1,257 @@
 +// SPDX-License-Identifier: GPL-2.0-only OR MIT
 +
 +/dts-v1/;
@@ -257,6 +257,14 @@ index 0000000..09e5661
 +	status = "okay";
 +};
 +
++&usb_phy {
++	status = "okay";
++};
++
++&xhci {
++	status = "okay";
++};
++
 +&watchdog {
 +	status = "okay";
 +};
@@ -294,7 +302,7 @@ diff --git a/target/linux/mediatek/image/filogic.mk b/target/linux/mediatek/imag
 index b0c82b1..b000543 100644
 --- a/target/linux/mediatek/image/filogic.mk
 +++ b/target/linux/mediatek/image/filogic.mk
-@@ -1731,6 +1731,23 @@ define Device/netcore_n60-pro
+@@ -1731,6 +1731,24 @@ define Device/netcore_n60-pro
  endef
  TARGET_DEVICES += netcore_n60-pro
  
@@ -303,7 +311,8 @@ index b0c82b1..b000543 100644
 +  DEVICE_MODEL := N30 Pro
 +  DEVICE_DTS := mt7981b-netcore-n30-pro
 +  DEVICE_DTS_DIR := ../dts
-+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
++  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware \
++	kmod-usb3 automount
 +  KERNEL_IN_UBI := 1
 +  UBINIZE_OPTS := -E 5
 +  BLOCKSIZE := 128k
