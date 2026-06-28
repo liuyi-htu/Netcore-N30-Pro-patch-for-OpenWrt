@@ -4,11 +4,11 @@ Date: Sat, 27 Jun 2026 01:31:23 +0800
 Subject: [PATCH] Add Netcore N30 Pro support
 
 ---
- .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 268 ++++++++++++++++++
+ .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 280 ++++++++++++++++++
  .../filogic/base-files/etc/board.d/02_network |   1 +
  .../etc/hotplug.d/ieee80211/11_fix_wifi_mac   |   1 +
  target/linux/mediatek/image/filogic.mk        |  18 ++
- 4 files changed, 288 insertions(+)
+ 4 files changed, 300 insertions(+)
  create mode 100644 target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
 
 diff --git a/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
@@ -16,7 +16,7 @@ new file mode 100644
 index 0000000..09e5661
 --- /dev/null
 +++ b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
-@@ -0,0 +1,268 @@
+@@ -0,0 +1,280 @@
 +// SPDX-License-Identifier: GPL-2.0-only OR MIT
 +
 +/dts-v1/;
@@ -44,16 +44,6 @@ index 0000000..09e5661
 +		reg = <0 0x40000000 0 0x10000000>;
 +	};
 +
-+	usb_vbus: regulator-usb-vbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usb-vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		gpios = <&pio 23 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		regulator-boot-on;
-+	};
-+
 +	gpio-keys {
 +		compatible = "gpio-keys";
 +
@@ -68,6 +58,16 @@ index 0000000..09e5661
 +			linux,code = <KEY_WPS_BUTTON>;
 +			gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
 +		};
++	};
++
++	usb_vbus: regulator-usb-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&pio 23 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++		regulator-boot-on;
 +	};
 +};
 +
@@ -267,15 +267,6 @@ index 0000000..09e5661
 +	status = "okay";
 +};
 +
-+&usb_phy {
-+	status = "okay";
-+};
-+
-+&xhci {
-+	status = "okay";
-+	vbus-supply = <&usb_vbus>;
-+};
-+
 +&watchdog {
 +	status = "okay";
 +};
@@ -284,6 +275,27 @@ index 0000000..09e5661
 +	status = "okay";
 +	nvmem-cell-names = "eeprom";
 +	nvmem-cells = <&eeprom_factory_0>;
++};
++
++&u2port0 {
++	status = "okay";
++};
++
++&u3port0 {
++	status = "okay";
++};
++
++&usb_phy {
++	status = "okay";
++};
++
++&xhci {
++	dr_mode = "host";
++	phys = <&u2port0 PHY_TYPE_USB2>,
++	       <&u3port0 PHY_TYPE_USB3>;
++	phy-names = "usb2-phy", "usb3-phy";
++	vbus-supply = <&usb_vbus>;
++	status = "okay";
 +};
 diff --git a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
 index 03f5b49..4df58d1 100644
