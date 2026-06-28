@@ -4,11 +4,11 @@ Date: Sat, 27 Jun 2026 01:31:23 +0800
 Subject: [PATCH] Add Netcore N30 Pro support
 
 ---
- .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 280 ++++++++++++++++++
+ .../mediatek/dts/mt7981b-netcore-n30-pro.dts  | 268 ++++++++++++++++++
  .../filogic/base-files/etc/board.d/02_network |   1 +
  .../etc/hotplug.d/ieee80211/11_fix_wifi_mac   |   1 +
  target/linux/mediatek/image/filogic.mk        |  18 ++
- 4 files changed, 300 insertions(+)
+ 4 files changed, 288 insertions(+)
  create mode 100644 target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
 
 diff --git a/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
@@ -16,7 +16,7 @@ new file mode 100644
 index 0000000..09e5661
 --- /dev/null
 +++ b/target/linux/mediatek/dts/mt7981b-netcore-n30-pro.dts
-@@ -0,0 +1,280 @@
+@@ -0,0 +1,268 @@
 +// SPDX-License-Identifier: GPL-2.0-only OR MIT
 +
 +/dts-v1/;
@@ -277,23 +277,11 @@ index 0000000..09e5661
 +	nvmem-cells = <&eeprom_factory_0>;
 +};
 +
-+&u2port0 {
-+	status = "okay";
-+};
-+
-+&u3port0 {
-+	status = "okay";
-+};
-+
 +&usb_phy {
 +	status = "okay";
 +};
 +
 +&xhci {
-+	dr_mode = "host";
-+	phys = <&u2port0 PHY_TYPE_USB2>,
-+	       <&u3port0 PHY_TYPE_USB3>;
-+	phy-names = "usb2-phy", "usb3-phy";
 +	vbus-supply = <&usb_vbus>;
 +	status = "okay";
 +};
